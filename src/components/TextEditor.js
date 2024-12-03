@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import Navbar from './Navbar';
 
 function TextEditor() {
     const [title, setTitle] = useState("");
@@ -170,6 +169,7 @@ function TextEditor() {
                             <li key={doc._id} className="document-item">
                                 <h2>{doc.title}</h2>
                                 <p className='owner'>Skapare: {doc.owner}</p>
+                                <p className='owner'>Medredigerare: {doc.access}</p>
                                 <Link to={`/documents/${doc._id}`} className="view-link">
                                 Öppna dokument
                                 </Link>
