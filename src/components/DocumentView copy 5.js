@@ -17,7 +17,7 @@ function DocumentView() {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
-    // Fetch username from sessionStorage
+    // Hämta användarnamn från sessionStorage när komponenten mountas
     useEffect(() => {
         const storedUsername = sessionStorage.getItem('username');
         if (storedUsername) {
@@ -25,19 +25,22 @@ function DocumentView() {
         }
     }, []);
 
-    // Fetch document and comments
+    // Fetch document and comments on component mount or when `id` changes
     useEffect(() => {
         async function fetchDocument() {
             try {
+                console.log(`Fetching document with ID: ${id}`);
                 const response = await fetch(`http://localhost:5000/posts/${id}`);
                 if (!response.ok) {
-                    throw new Error('Document could not be fetched');
+                    throw new Error('Dokumentet kunde inte hämtas');
                 }
                 const doc = await response.json();
+                console.log("Document fetched:", doc);
                 setDocument(doc);
                 setContent(doc.content);
-                setComments(doc.comments || []);
+                setComments(doc.comments || []); // Assuming comments are part of the document
             } catch (err) {
+                console.error("Error fetching document:", err.message);
                 setError(err.message);
             } finally {
                 setLoading(false);
@@ -49,30 +52,41 @@ function DocumentView() {
 
     // Socket.IO setup and event listeners
     useEffect(() => {
+        console.log("Initializing socket connection...");
         socket.current = io(SERVER_URL);
+
+        // Join the room for this specific document
         socket.current.emit('create', id);
 
+        // Listen for document updates from other clients
         socket.current.on("doc", (data) => {
+            console.log("Received 'doc' event:", data);
             if (data._id === id) {
                 setContent(data.content);
             }
         });
 
         socket.current.on("comment", (comment) => {
+            console.log("Received 'comment' event:", comment);
             if (comment._id === id) {
+                // Uppdatera kommentarer och skapa en ny array
                 setComments(prevComments => [...prevComments, comment]);
             }
         });
+        
 
         return () => {
+            console.log(`Leaving room with ID: ${id}`);
             socket.current.emit('leave', id);
             socket.current.disconnect();
+            console.log("Socket disconnected");
         };
     }, [id]);
 
     function handleContentChange(e) {
         const newContent = e.target.value;
         setContent(newContent);
+        console.log("Emitting 'doc' event:", { _id: id, content: newContent });
         socket.current.emit('doc', { _id: id, content: newContent });
     }
 
@@ -82,17 +96,23 @@ function DocumentView() {
 
     const handleAddComment = async (e) => {
         e.preventDefault();
-        const comment = { _id: id, text: newComment, username: username };
+        const comment = { _id: id, text: newComment, username: username }; // Lägg till användarnamn
+    
+        // Emit the new comment to other clients via socket.io
         socket.current.emit('comment', comment);
+    
+        // Add the comment locally to update the UI immediately
         setComments(prevComments => [...prevComments, comment]);
-        setNewComment('');
+        setNewComment(''); // Clear the new comment input
     };
+    
 
     const handleUpdate = async (e) => {
         e.preventDefault();
         const { title, content, email } = e.target.elements;
-
+    
         try {
+            console.log("Updating document...");
             const response = await fetch(`http://localhost:5000/posts/update`, {
                 method: 'POST',
                 headers: {
@@ -105,34 +125,38 @@ function DocumentView() {
                     email: email.value,
                 }),
             });
-
+    
             if (!response.ok) {
-                throw new Error('Error updating document');
+                throw new Error('Fel vid uppdatering av dokument');
             }
+    
+            console.log("Document updated successfully.");
+    
             navigate(`/editor`);
         } catch (err) {
+            console.error("Error updating document:", err.message);
             setError(err.message);
         }
     };
-
-    if (loading) return <p>Loading document...</p>;
-    if (error) return <p>Error: {error}</p>;
+    
+    if (loading) return <p>Laddar dokument...</p>;
+    if (error) return <p>Fel: {error}</p>;
 
     return (
         <div className="document-view">
             <div className="editor-container">
                 <div className="editor">
-                    <h1>Update Document</h1>
+                    <h1>Uppdatera Dokument</h1>
                     <form className="text-form" onSubmit={handleUpdate}>
                         <input 
                             type="hidden"
                             name="id"
                             value={document._id} />
                         
-                        <label htmlFor="title">Title</label>
+                        <label htmlFor="title">Titel</label>
                         <input type="text" className="form-input" name="title" defaultValue={document.title} required />
 
-                        <label htmlFor="content">Content</label>
+                        <label htmlFor="content">Innehåll</label>
                         <textarea 
                             name="content"
                             className="text-area"
@@ -141,7 +165,7 @@ function DocumentView() {
                             required
                         ></textarea>
 
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email">E-post</label>
                         <input
                             type="email"
                             className="form-input"
@@ -150,32 +174,33 @@ function DocumentView() {
                             required
                         />
 
-                        <input type="submit" value="Update" />
+                        <input type="submit" value="Uppdatera" />
                     </form>
                 </div>
 
                 <div className="comments">
-                    <h2>Comments</h2>
+                    <h2>Kommentarer</h2>
                     <div className="comments-list">
                         {comments.map((comment, index) => (
                             <div key={index} className="comment">
-                                <p><strong>{comment.username}:</strong> {comment.text}</p>
+                                <p><strong>{comment.username}:</strong> {comment.text}</p> {/* Visa användarnamn */}
                             </div>
                         ))}
                     </div>
+
 
                     <form onSubmit={handleAddComment}>
                         <textarea 
                             value={newComment}
                             onChange={handleCommentChange}
-                            placeholder="Write a comment..."
+                            placeholder="Skriv en kommentar..."
                             required
                         />
-                        <button type="submit">Add Comment</button>
+                        <button type="submit">Lägg till kommentar</button>
                     </form>
                 </div>
             </div>
-            <p>Email with access to this: {document.access}</p>
+            <p>Mail med access till denna: {document.access}</p>
         </div>
     );
 }
