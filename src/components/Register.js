@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -38,16 +39,22 @@ function Register() {
   };
 
   return (
-    <div>
-      <h2>Skapa konto</h2>
+    <div className='homepage'>
       <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="E-post"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <h1 className='login'>Skapa Konto</h1>
+        <label>
+          E-post:
+          <input
+            type="email"
+            placeholder="E-post"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+        <br />
+        <label>
+        Lösenord:
         <input
           type="password"
           placeholder="Lösenord"
@@ -55,7 +62,10 @@ function Register() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        </label>
+        <br />
         <button type="submit">Skapa konto</button>
+        <p>Logga in <Link to={`/login`}>Här</Link></p>
       </form>
       {message && <p>{message}</p>}
     </div>

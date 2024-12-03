@@ -72,7 +72,7 @@ function DocumentView() {
     const handleUpdate = async (e) => {
         e.preventDefault();
         const { title, content, email } = e.target.elements;
-
+    
         try {
             console.log("Updating document...");
             const response = await fetch(`http://localhost:5000/posts/update`, {
@@ -87,20 +87,45 @@ function DocumentView() {
                     email: email.value,
                 }),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Fel vid uppdatering av dokument');
             }
-
-            
-
+    
             console.log("Document updated successfully.");
-            navigate(`/editor`);
+    
+            // Skicka e-post
+            try {
+                console.log("Skickar e-post till:", email.value, "med titel:", title.value);
+    
+                const emailResponse = await fetch('http://localhost:5000/posts/email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email.value,
+                        title: title.value,
+                    }),
+                });
+    
+                if (emailResponse.ok) {
+                    console.log("E-post skickad framgångsrikt.");
+                } else {
+                    const errorResponse = await emailResponse.json();
+                    console.error('Fel vid sändning av e-post:', errorResponse.message || errorResponse.error || 'Okänt fel');
+                }
+            } catch (err) {
+                console.error("Ett fel inträffade vid e-postsändning:", err);
+            }
+    
+            navigate(`/`);
         } catch (err) {
             console.error("Error updating document:", err.message);
             setError(err.message);
         }
     };
+    
 
     if (loading) return <p>Laddar dokument...</p>;
     if (error) return <p>Fel: {error}</p>;

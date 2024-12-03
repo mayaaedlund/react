@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Login({ setToken }) {
   const [email, setEmail] = useState('');
@@ -46,9 +47,9 @@ function Login({ setToken }) {
 
 
   return (
-    <div>
-      <h1>Logga in</h1>
+    <div className='homepage'>
       <form onSubmit={handleSubmit}>
+        <h1 className='login'>Logga in</h1>
         <label>
           E-post:
           <input
@@ -70,6 +71,7 @@ function Login({ setToken }) {
         </label>
         <br />
         <button type="submit">Logga in</button>
+        <p>Registrera dig <Link to={`/register`}>Här</Link></p>
       </form>
       {message && <p>{message}</p>}
     </div>

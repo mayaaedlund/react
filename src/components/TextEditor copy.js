@@ -120,68 +120,61 @@ function TextEditor() {
 
     return (
         <>
-            <div className='text-editor'>
-                <div>
-                <h1>Textredigerare</h1>
-                <p className="user-info">Inloggad som {username}</p>
+            <div>
+                <Navbar />
+                <form onSubmit={handleSubmit}>
+                    <p>Användare: {username || "Ingen användare"}</p>
 
-                    <form className='text-form' onSubmit={handleSubmit}>
+                    <label htmlFor="title">Titel</label>
+                    <input
+                        type="text"
+                        id="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                    />
 
-                        <label htmlFor="title">Titel</label>
-                        <input
-                            type="text"
-                            className='form-input'
-                            id="title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                        />
+                    <label htmlFor="content">Innehåll</label>
+                    <textarea
+                        id="content"
+                        value={content}
+                        onChange={(e) => {setContent(e.target.value)}}
+                        required
+                    ></textarea>
 
-                        <label htmlFor="content">Innehåll</label>
-                        <textarea
-                            id="content"
-                            className='text-area'
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            required
-                        ></textarea>
+                    <label htmlFor="email">Access (E-post)</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
 
-                        <label htmlFor="email">Access (E-post)</label>
-                        <input
-                            type="email"
-                            className='form-input'
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <p className="user-info">Skriv in en mailadress som du vill ska få access till dokumentet.</p>
-
-                        <button type="submit" className="submit-btn">Spara</button>
-                    </form>
-                </div>
-
-                <div>
-                    <h1 className='document-font'>Dina dokument:</h1>
-                    {documents.length > 0 ? (
-                        <ul className="document-list">
-                        {documents
-                            .filter((doc) => doc.owner === username || doc.access === username)
-                            .map((doc) => (
-                            <li key={doc._id} className="document-item">
-                                <h2>{doc.title}</h2>
-                                <p className='owner'>Skapare: {doc.owner}</p>
-                                <Link to={`/documents/${doc._id}`} className="view-link">
-                                Öppna dokument
-                                </Link>
-                            </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>Inga dokument hittades.</p>
-                    )}
-                    </div>
-
+                    <button type="submit">Spara</button>
+                </form>
             </div>
+
+            <div>
+                <h1>Dokument</h1>
+                <p>Användare: {username}</p>
+                {documents.length > 0 ? (
+                    documents
+                        .filter((doc) => doc.owner === username || doc.access === username) // Filtrera dokument där username matchar owner eller access
+                        .map((doc) => (
+                            <div key={doc._id}>
+                                <h2>{doc.title}</h2>
+                                <p>Skapare: {doc.owner}</p>
+                                <p>Tillgång: {doc.access}</p>
+                                <Link to={`/documents/${doc._id}`}>Visa dokument</Link>
+                            </div>
+                        ))
+                ) : (
+                    <p>Inga dokument hittades.</p>
+                )}
+            </div>
+
+
+
         </>
     );
 }
