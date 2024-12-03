@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <div>
-      <h2>Textredigerare</h2>
+    <div className='homepage'>
+      <h1>Välkommen </h1>
+      <p>Påbörja ditt text-äventyr nu</p>
       <div>
         <Link to="/login">
           <button>Logga in</button>

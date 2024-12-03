@@ -1,0 +1,70 @@
+/* Allmänna stilregler */
+.App {
+  max-width: 600px; /* Begränsar bredden till 600px */
+  margin: 0 auto;   /* Centrerar appen horisontellt */
+  padding: 20px;
+}
+
+
+
+button {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #777;
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input[type="text"],
+textarea {
+  padding: 10px;
+  margin-top: 5px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+/* Navbar-stilar */
+nav {
+  background-color: #333;
+  padding: 1rem;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+  padding-left: 0;
+}
+
+nav li {
+  display: inline;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #ddd;
+}
+
