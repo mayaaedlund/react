@@ -1,0 +1,63 @@
+.homepage {
+    justify-content: center;
+    height: 100vh; /* Full höjd av viewporten */
+    width: 100%; /* Full bredd av sidan */
+    background: #f5f5f5; /* Neutral bakgrund */
+    color: #333; /* Mjuk mörk textfärg */
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box; /* Inkludera padding i bredd och höjd */
+}
+
+.homepage h1 {
+    font-size: 3rem; /* Minskat storlek */
+    margin-bottom: 15px;
+    font-weight: 500; /* Mindre framträdande */
+    color: #000; /* Klassisk svart färg */
+}
+
+.homepage p {
+    font-size: 1.2rem; /* Mindre text */
+    margin-bottom: 20px;
+    line-height: 1.5;
+    color: #666; /* Neutral grå färg */
+}
+
+.homepage button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #ff993a; /* Enkel blå */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.homepage button:hover {
+    background-color: #ff993a; /* Mörkare blå */
+}
+
+.homepage div {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center; /* Centrera knappar */
+}
+
+/* Media Queries för responsivitet */
+@media (max-width: 768px) {
+    .homepage h1 {
+        font-size: 2rem;
+    }
+
+    .homepage p {
+        font-size: 1rem;
+    }
+
+    .homepage button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}

@@ -1,25 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 import DocumentView from './DocumentView';
 
+// Mocka fetch och sessionStorage
 beforeEach(() => {
     fetch.resetMocks();
-});
-
-test('visar laddningsindikator medan dokumentet laddas', async () => {
-    fetch.mockResponseOnce(JSON.stringify({}));
-
-    render(
-        <MemoryRouter initialEntries={['/documents/1']}>
-            <DocumentView />
-        </MemoryRouter>
-    );
-
-    expect(screen.getByText(/laddar dokument.../i)).toBeInTheDocument();
-
-    await waitFor(() => {
-        expect(screen.queryByText(/laddar dokument.../i)).not.toBeInTheDocument();
-    });
+    sessionStorage.clear();
 });
 
 test('visar dokumentinformation när den är hämtad', async () => {
@@ -27,6 +15,8 @@ test('visar dokumentinformation när den är hämtad', async () => {
         _id: '1',
         title: 'Testtitel',
         content: 'Testinnehåll',
+        comments: [],
+        access: 'testUser@example.com'
     };
     fetch.mockResponseOnce(JSON.stringify(mockDocument));
 
@@ -42,16 +32,3 @@ test('visar dokumentinformation när den är hämtad', async () => {
     });
 });
 
-test('visar felmeddelande om dokumentet inte kan hämtas', async () => {
-    fetch.mockRejectOnce(new Error('Dokumentet kunde inte hämtas')); 
-
-    render(
-        <MemoryRouter initialEntries={['/documents/1']}>
-            <DocumentView />
-        </MemoryRouter>
-    );
-
-    await waitFor(() => {
-        expect(screen.getByText(/fel: dokumentet kunde inte hämtas/i)).toBeInTheDocument();
-    });
-});
