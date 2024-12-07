@@ -1,0 +1,52 @@
+/* Formulär (login) */
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px 50px;
+    width: 400px;
+    text-align: center;
+    border-radius: 8px; /* Rundade hörn för formuläret */
+}
+  
+  /* Input (login) */
+input {
+    background-color: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 12px 0;
+    width: 350px;
+}
+
+/* Login */
+.login {
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    color: #ff4b2b;
+  }
+  
+  
+  /* Formulär för text-editorn */
+.text-form {
+    display: flex;
+    background: #ffffff;
+    flex-direction: column;
+    gap: 15px; /* Mellanrum mellan formulärelement */
+    width: 100%;
+    max-width: 400px; /* Maximal bredd */
+}
+  
+  
+  /* Input för titel & access */
+.form-input {
+    background-color: #ffffff;
+    border: 1px solid #000000; /* Svart kant med 2px tjocklek */
+    padding: 12px 15px;
+    margin: 12px 0;
+    width: 350px;
+    border-radius: 5px; /* Valfritt, ger rundade hörn */
+}

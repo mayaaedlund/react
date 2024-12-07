@@ -1,0 +1,41 @@
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ff993a; /* Dämpad lila bakgrundsfärg som matchar homepage */
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Djupare skugga för bättre separation */
+}
+  
+.navbar-logo .logo-text {
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif; /* Matchar homepage */
+}
+  
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 25px; /* Ökat mellanrum för bättre överskådlighet */
+}
+  
+.navbar-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem; /* Lite större text för bättre läsbarhet */
+    padding: 8px 12px;
+    border-radius: 25px; /* Rundare kanter för ett mjukare utseende */
+    transition: background-color 0.3s, transform 0.3s ease-in-out; /* Lättare övergångar */
+}
+  
+.navbar-link:hover {
+    background-color: #f72585;  /* Matchar knapparna från homepage med en elegant färg */
+    transform: scale(1.1);  /* Liten förstoring för hover */
+}
+  
+.navbar-link:active {
+    background-color: #7209b7;  /* Mörkare färg vid klick, matchar hover-färgen från homepage */
+}

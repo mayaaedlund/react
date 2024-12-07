@@ -1,6 +1,13 @@
-import './App.css';
+// App.js 
+// Huvudkomponenten för applikationen. Den hanterar routing, autentisering och layout.
+
+// React-router-dom används för att hantera routing i applikationen.
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Komponenter som används i olika delar av applikationen.
 import TextEditor from './components/TextEditor';
+
+
 import DocumentView from './components/DocumentView';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
@@ -9,7 +16,17 @@ import PrivateRoute from './components/PrivateRoute';
 import Home from './components/Home';
 import useToken from './components/useToken';
 
+// Styles
+import './styles/global.css';
+import './styles/navbar.css';
+import './styles/form.css';
+import './styles/buttons.css';
+import './styles/homepage.css';
+import './styles/text-editor.css';
+
+
 function App() {
+  // useToken-hooken används för att hämta och sätta användarens autentiseringstoken.
   const { token, setToken } = useToken();
 
   return (
@@ -25,7 +42,7 @@ function App() {
             path="/editor"
             element={
               <PrivateRoute>
-                <TextEditor token={token} /> {/* Skicka token som prop */}
+                <TextEditor token={token} />
               </PrivateRoute>
             }
           />

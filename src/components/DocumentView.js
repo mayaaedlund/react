@@ -147,7 +147,6 @@ function DocumentView() {
                             className="form-input"
                             name="email"
                             defaultValue={document.email}
-                            required
                         />
 
                         <input type="submit" value="Update" />
