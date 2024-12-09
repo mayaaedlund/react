@@ -9,14 +9,23 @@ function TextForm({ username, addDocument }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // Skicka dokumentdata till servern
             const response = await fetch('http://localhost:5000/posts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title, content, username, email }),
             });
-
+    
             if (response.ok) {
                 const newDoc = await response.json();
+    
+                // Skicka e-post
+                await fetch('http://localhost:5000/posts/email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, title }),
+                });
+    
                 addDocument({ id: newDoc.insertedId, title, content, username, email });
                 setTitle("");
                 setContent("");
@@ -28,6 +37,7 @@ function TextForm({ username, addDocument }) {
             console.error('Error:', error);
         }
     };
+    
 
     return (
         <form className="text-form" onSubmit={handleSubmit}>
