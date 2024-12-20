@@ -13,7 +13,7 @@ function Login({ setToken }) {
     sessionStorage.clear();
 
     try {
-        const response = await fetch('http://localhost:5000/auth/login', {
+        const response = await fetch('https://jsramverk-mayaed-d6arardta3fwd4ae.northeurope-01.azurewebsites.net/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

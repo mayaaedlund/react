@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
-const SERVER_URL = "http://localhost:5000";
+const SERVER_URL = "https://jsramverk-mayaed-d6arardta3fwd4ae.northeurope-01.azurewebsites.net/";
 
 function DocumentView() {
     const { id } = useParams();
@@ -29,7 +29,7 @@ function DocumentView() {
     useEffect(() => {
         async function fetchDocument() {
             try {
-                const response = await fetch(`http://localhost:5000/posts/${id}`);
+                const response = await fetch(`https://jsramverk-mayaed-d6arardta3fwd4ae.northeurope-01.azurewebsites.net/posts/${id}`);
                 if (!response.ok) {
                     throw new Error('Document could not be fetched');
                 }
@@ -93,7 +93,7 @@ function DocumentView() {
         const { title, content, email } = e.target.elements;
 
         try {
-            const response = await fetch(`http://localhost:5000/posts/update`, {
+            const response = await fetch(`https://jsramverk-mayaed-d6arardta3fwd4ae.northeurope-01.azurewebsites.net/posts/update`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -10,7 +10,7 @@ function TextForm({ username, addDocument }) {
         e.preventDefault();
         try {
             // Skicka dokumentdata till servern
-            const response = await fetch('http://localhost:5000/posts', {
+            const response = await fetch('https://jsramverk-mayaed-d6arardta3fwd4ae.northeurope-01.azurewebsites.net/posts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title, content, username, email }),
@@ -20,7 +20,7 @@ function TextForm({ username, addDocument }) {
                 const newDoc = await response.json();
     
                 // Skicka e-post
-                await fetch('http://localhost:5000/posts/email', {
+                await fetch('https://jsramverk-mayaed-d6arardta3fwd4ae.northeurope-01.azurewebsites.net/posts/email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, title }),

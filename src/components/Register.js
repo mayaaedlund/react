@@ -13,7 +13,7 @@ function Register() {
 
     // Skapa en förfrågan till API:et
     try {
-      const response = await fetch('http://localhost:5000/auth/register', {
+      const response = await fetch('https://jsramverk-mayaed-d6arardta3fwd4ae.northeurope-01.azurewebsites.net/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -15,7 +15,7 @@ function TextEditor() {
     useEffect(() => {
         async function fetchDocuments() {
             try {
-                const response = await fetch(`http://localhost:5000/posts`);
+                const response = await fetch(`https://jsramverk-mayaed-d6arardta3fwd4ae.northeurope-01.azurewebsites.net/posts`);
                 if (response.ok) {
                     const docs = await response.json();
                     setDocuments(docs);
